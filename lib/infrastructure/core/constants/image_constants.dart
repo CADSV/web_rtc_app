@@ -8,7 +8,7 @@ const imageBase= 'assets/images/';
 const iconBase = 'assets/icons/';
 
 extension ImagesConstantExtension on ImagesConstant {
-  String get image {
+  String get imagePath {
     switch (this) {
       case ImagesConstant.logo:
         return '${iconBase}webRTC_logo.png';

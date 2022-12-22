@@ -7,7 +7,7 @@ Widget renderLogoImageView(BuildContext context, {bool fullLogo = false, String 
     margin: EdgeInsets.only(left: 20, top: (fullLogo ? 0 : 10), right: 20, bottom: (fullLogo ? 0 : 10)),
     height: MediaQuery.of(context).size.width *  (fullLogo ? 0.3 : 0.3),
     width: double.infinity,
-    child: ImageViewComponent(fullLogo ? ImagesConstant.logo.image : imagePath));
+    child: ImageViewComponent(fullLogo ? ImagesConstant.logo.imagePath : imagePath));
 
 
 Widget renderImageView(BuildContext context, String path) => Container(

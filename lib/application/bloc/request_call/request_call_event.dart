@@ -1,5 +1,5 @@
 //Project imports:
-part of 'requestCall_bloc.dart';
+part of 'request_call_bloc.dart';
 
 ///RequestCallEvent: Here we define the events of the RequestCallBloc.
 abstract class RequestCallEvent {}
@@ -12,3 +12,8 @@ class RequestCallEventNavigateToWith extends RequestCallEvent {
   RequestCallEventNavigateToWith(this.routeName);
 }
 
+
+class RequestCallEventStartMeeting extends RequestCallEvent {
+  
+  RequestCallEventStartMeeting();
+}

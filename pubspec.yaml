@@ -40,6 +40,7 @@ dependencies:
   flutter_webrtc: ^0.9.18
   device_info_plus: ^8.0.0
   connectivity_plus: ^2.3.9
+  flutter_webrtc_wrapper: ^1.0.2
 
 dev_dependencies:
   flutter_test:

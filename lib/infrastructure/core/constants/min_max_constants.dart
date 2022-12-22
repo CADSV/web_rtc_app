@@ -25,15 +25,13 @@ extension MinMaxConstantExtension on MinMaxConstant {
         return 3;
 
       case MinMaxConstant.maxLengthUserName:
-        return 20;
+        return 50;
 
       case MinMaxConstant.minLengthPassword:
         return 6;
 
       case MinMaxConstant.maxLengthPassword:
-        return 20;
-      
-
+        return 255;
     }
   }
 

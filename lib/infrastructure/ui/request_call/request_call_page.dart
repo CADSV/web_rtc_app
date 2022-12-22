@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 //Project imports:
 import 'package:web_rtc_app/application/bloc/request_call/request_call_bloc.dart';
+import 'package:web_rtc_app/infrastructure/core/constants/image_constants.dart';
 import 'package:web_rtc_app/infrastructure/core/constants/min_max_constants.dart';
 import 'package:web_rtc_app/infrastructure/core/constants/text_constants.dart';
 import 'package:web_rtc_app/infrastructure/core/context_manager.dart';
@@ -30,6 +31,8 @@ class RequestCallPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _textUserNameController = TextEditingController(text: '');
   final TextEditingController _textUUIDCallController = TextEditingController(text: '');
+  final TextEditingController _textPeerIDController = TextEditingController(text: '');
+  final TextEditingController _textPeerPasswordController = TextEditingController(text: '');
 
 
 
@@ -118,14 +121,17 @@ class RequestCallPage extends StatelessWidget {
     crossAxisAlignment:  CrossAxisAlignment.center,
     mainAxisSize: MainAxisSize.max,
     children: [
-      renderLogoImageView(context, fullLogo: true),
+      renderLogoImageView(context, imagePath: ImagesConstant.webRTC.imagePath),
       heightSeparator(context, 0.025),
       _renderUserNameTextField(),
-      heightSeparator(context, 0.035),
+      heightSeparator(context, 0.025),
       _renderUUIDCallTextField(),
       heightSeparator(context, 0.025),
+      _renderPeerIdTextField(),
+      heightSeparator(context, 0.025),
+      _renderPeerPasswordTextField(),
+      heightSeparator(context, 0.025),
       _renderButtons(context),
-      heightSeparator(context, 0.015),
     ],
   );
 
@@ -145,6 +151,24 @@ class RequestCallPage extends StatelessWidget {
     minLength: MinMaxConstant.minLengthPassword.value,
     maxLength: MinMaxConstant.maxLengthPassword.value,
     textEditingController: _textUUIDCallController,
+    keyboardType: TextInputType.text,
+  );
+
+    Widget _renderPeerIdTextField() => TextFieldBaseComponent(
+    hintText: 'Peer ID',
+    errorMessage: 'Please enter the peer ID',
+    minLength: MinMaxConstant.minLengthPassword.value,
+    maxLength: MinMaxConstant.minLengthPassword.value,
+    textEditingController: _textPeerIDController,
+    keyboardType: TextInputType.text,
+  );
+
+    Widget _renderPeerPasswordTextField() => TextFieldBaseComponent(
+    hintText: 'Peer Password',
+    errorMessage: 'Please enter the peer password',
+    minLength: MinMaxConstant.minLengthPassword.value,
+    maxLength: MinMaxConstant.minLengthPassword.value,
+    textEditingController: _textPeerPasswordController,
     keyboardType: TextInputType.text,
   );
 
@@ -179,8 +203,10 @@ class RequestCallPage extends StatelessWidget {
 
     getIt<ContextManager>().context = context;
 
+    if(_formKey.currentState?.validate() ?? false) {
+      context.read<RequestCallBloc>().add(RequestCallEventStartMeeting());
+    }
 
-    // context.read<RequestCallBloc>().add(RequestCallEventRequestCallUser(signInUserDomainModel, _formKey.currentState?.validate() ?? false, context));
   }
 
 
