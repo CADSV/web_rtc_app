@@ -13,7 +13,8 @@ enum RepositoryManagerError {error}
 
 class RepositoryManager {
   Future<BaseOptions> _dioOptions(
-      String endpoint, int customHeader, String? clientCode) async {
+      String endpoint, int customHeader, String? clientCode, {Map<String, dynamic>? header}) async {
+    
     var repositoryHeader = <String, dynamic>{};
 
     var options = BaseOptions(
@@ -21,8 +22,9 @@ class RepositoryManager {
         connectTimeout: const Duration(seconds: 30).inMilliseconds,
         receiveTimeout: const Duration(seconds: 30).inMilliseconds,
         responseType: ResponseType.plain,
-        headers: repositoryHeader,
-        contentType: 'application/json');
+        headers: header ?? repositoryHeader,
+        contentType: 'application/json',
+        );
 
     return options;
   }
@@ -34,10 +36,12 @@ class RepositoryManager {
     };
   }
 
-  Future<String?> request({required String operation, required String endpoint, Map<String, dynamic>? body, int customHeader = -1, String? clientCode}) async {
-    var setDioOptions = await _dioOptions(endpoint, customHeader, clientCode);
+  Future<String?> request({required String operation, required String endpoint, Map<String, dynamic>? body, Map<String, dynamic>? header, int customHeader = -1, String? clientCode}) async {
+    var setDioOptions = await _dioOptions(endpoint, customHeader, clientCode, header: header);
 
     endpoint = FlavorManager.baseURL() + endpoint;
+
+    setDioOptions.headers['Authorization'] = 'Token SuperSecretToken';
 
     var dio = Dio(setDioOptions);
 
@@ -67,8 +71,9 @@ class RepositoryManager {
       dio.close();
 
       return response?.data;
-    } on DioError {
+    } on DioError catch (e) {
 
+      print(e);
       throw RepositoryManagerError.error;
 
     }

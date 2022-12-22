@@ -2,6 +2,7 @@
 import 'package:get_it/get_it.dart';
 
 //Project imports
+import 'package:web_rtc_app/application/use_cases/user_token/get_user_token_use_case.dart';
 import 'package:web_rtc_app/infrastructure/core/context_manager.dart';
 import 'package:web_rtc_app/infrastructure/core/navigator_manager.dart';
 import 'package:web_rtc_app/infrastructure/core/repository_manager.dart';
@@ -21,5 +22,6 @@ class InjectionManager {
 
 
     //USE CASES INJECTION
+    GetUserTokenUseCaseContract.inject();
   }
 }

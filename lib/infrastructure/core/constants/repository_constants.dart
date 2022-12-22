@@ -42,14 +42,19 @@ extension RepositoryParameterPathConstantExtension on RepositoryParameterPathCon
 
 ///RepositoryPathConstant: Enum for endpoints path.
 enum RepositoryPathConstant {
-  example
+  wssToken,
+  getUserToken
 }
 
 extension RepositoryPathConstantExtension on RepositoryPathConstant {
   String get path {
     switch (this) {
-      case RepositoryPathConstant.example:
-        return '';
+
+      case RepositoryPathConstant.wssToken:
+        return 'Token SuperSecretToken';
+
+      case RepositoryPathConstant.getUserToken:
+        return 'token/';
 
     }
   }

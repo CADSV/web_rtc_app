@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 //Project imports:
 import 'package:web_rtc_app/application/bloc/request_call/request_call_bloc.dart';
+import 'package:web_rtc_app/domain/models/request_call/request_call_domain_model.dart';
 import 'package:web_rtc_app/infrastructure/core/constants/image_constants.dart';
 import 'package:web_rtc_app/infrastructure/core/constants/min_max_constants.dart';
 import 'package:web_rtc_app/infrastructure/core/constants/text_constants.dart';
@@ -29,8 +30,8 @@ class RequestCallPage extends StatelessWidget {
   //Controllers
 
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final TextEditingController _textUserNameController = TextEditingController(text: '');
-  final TextEditingController _textUUIDCallController = TextEditingController(text: '');
+  final TextEditingController _textUsernameController = TextEditingController(text: '');
+  final TextEditingController _textMeetingIDController = TextEditingController(text: '');
   final TextEditingController _textPeerIDController = TextEditingController(text: '');
   final TextEditingController _textPeerPasswordController = TextEditingController(text: '');
 
@@ -138,19 +139,19 @@ class RequestCallPage extends StatelessWidget {
 
   Widget _renderUserNameTextField() => TextFieldBaseComponent(
     hintText: 'Username',
-    errorMessage: 'Please enter the username',
+    errorMessage: 'Username',
     minLength: MinMaxConstant.minLengthUserName.value,
     maxLength: MinMaxConstant.maxLengthUserName.value,
-    textEditingController: _textUserNameController,
+    textEditingController: _textUsernameController,
     keyboardType: TextInputType.text,
   );
 
   Widget _renderUUIDCallTextField() => TextFieldBaseComponent(
-    hintText: 'Meeting UUID',
-    errorMessage: 'Please enter the Meeting UUID',
+    hintText: 'Meeting ID',
+    errorMessage: 'Please enter the Meeting ID',
     minLength: MinMaxConstant.minLengthPassword.value,
     maxLength: MinMaxConstant.maxLengthPassword.value,
-    textEditingController: _textUUIDCallController,
+    textEditingController: _textMeetingIDController,
     keyboardType: TextInputType.text,
   );
 
@@ -158,7 +159,7 @@ class RequestCallPage extends StatelessWidget {
     hintText: 'Peer ID',
     errorMessage: 'Please enter the peer ID',
     minLength: MinMaxConstant.minLengthPassword.value,
-    maxLength: MinMaxConstant.minLengthPassword.value,
+    maxLength: MinMaxConstant.maxLengthPassword.value,
     textEditingController: _textPeerIDController,
     keyboardType: TextInputType.text,
   );
@@ -167,7 +168,7 @@ class RequestCallPage extends StatelessWidget {
     hintText: 'Peer Password',
     errorMessage: 'Please enter the peer password',
     minLength: MinMaxConstant.minLengthPassword.value,
-    maxLength: MinMaxConstant.minLengthPassword.value,
+    maxLength: MinMaxConstant.maxLengthPassword.value,
     textEditingController: _textPeerPasswordController,
     keyboardType: TextInputType.text,
   );
@@ -204,7 +205,14 @@ class RequestCallPage extends StatelessWidget {
     getIt<ContextManager>().context = context;
 
     if(_formKey.currentState?.validate() ?? false) {
-      context.read<RequestCallBloc>().add(RequestCallEventStartMeeting());
+
+      var requestCall = RequestCallDomainModel(
+        userId: _textUsernameController.text,
+        meeting: _textMeetingIDController.text,
+        username: _textPeerIDController.text,
+        password: _textPeerPasswordController.text,
+      );
+      context.read<RequestCallBloc>().add(RequestCallEventStartMeeting(requestCall));
     }
 
   }

@@ -2,6 +2,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:web_rtc_app/application/use_cases/user_token/get_user_token_use_case.dart';
+import 'package:web_rtc_app/domain/models/request_call/request_call_domain_model.dart';
+import 'package:web_rtc_app/domain/models/user_token/get_user_token_domain_model.dart';
+import 'package:web_rtc_app/domain/models/user_token/user_token_domain_model.dart';
 
 //Project imports
 import 'package:web_rtc_app/infrastructure/core/navigator_manager.dart';
@@ -18,6 +22,7 @@ class RequestCallBloc extends Bloc<RequestCallEvent, RequestCallState> {
 
   //Instances of use cases:
   final NavigatorServiceContract _navigatorManager = NavigatorServiceContract.get();
+  final GetUserTokenUseCaseContract _getUserTokenUseCaseContract = GetUserTokenUseCaseContract.get();
 
 
  //Constructor
@@ -25,6 +30,7 @@ class RequestCallBloc extends Bloc<RequestCallEvent, RequestCallState> {
   RequestCallBloc() : super(RequestCallStateInitial()) {
     on<RequestCallEventFetchBasicData>(_fetchBasicRequestCallDataEventToState);
     on<RequestCallEventNavigateToWith>(_navigateToEventToState);
+    on<RequestCallEventStartMeeting>(_startMeetingEventToState);
 
   }
 
@@ -61,11 +67,38 @@ class RequestCallBloc extends Bloc<RequestCallEvent, RequestCallState> {
   }
 
 
+  ///This method is called when the event is [RequestCallEventStartMeeting]
+  ///It starts the meeting.
+  void _startMeetingEventToState(RequestCallEventStartMeeting event, Emitter<RequestCallState> emit) async {
+
+    emit(RequestCallStateLoading());
+
+
+
+    var tokenResponse = await _getUserTokenUseCaseContract.run(_prepareGetUserTokenModel(event.requestCallDomainModel));
+
+    if(tokenResponse != null) {
+      var userToken = getUserTokenDomainModelFromJson(tokenResponse);
+    }
+
+    _loadView();
+
+    emit(RequestCallStateHideLoading());
+
+  }
 
 
 
 
   //Private methods:
+
+
+  UserTokenDomainModel _prepareGetUserTokenModel(RequestCallDomainModel requestCallDomainModel) {
+    return UserTokenDomainModel(
+      userId: requestCallDomainModel.userId,
+    );
+
+  }
 
 
   //To load the view:

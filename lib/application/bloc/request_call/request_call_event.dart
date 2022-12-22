@@ -14,6 +14,7 @@ class RequestCallEventNavigateToWith extends RequestCallEvent {
 
 
 class RequestCallEventStartMeeting extends RequestCallEvent {
-  
-  RequestCallEventStartMeeting();
+
+  RequestCallDomainModel requestCallDomainModel;
+  RequestCallEventStartMeeting(this.requestCallDomainModel);
 }

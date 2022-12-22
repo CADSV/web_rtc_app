@@ -146,9 +146,9 @@ class _TextFormFieldBaseComponentState
         if ((value?.isEmpty ?? false) && !widget.validate) {
           return null;
         }
-        if (widget.textEditingController?.text.contains('-') ?? false) {
-          return 'No se aceptan guiones';
-        }
+        // if (widget.textEditingController?.text.contains('-') ?? false) {
+        //   return 'No se aceptan guiones';
+        // }
 
         if ((value!.length < widget.minLength) ||
             (widget.keyboardType == TextInputType.emailAddress &&

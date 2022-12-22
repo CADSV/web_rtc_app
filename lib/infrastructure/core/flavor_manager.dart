@@ -13,11 +13,11 @@ extension FlavorEnum on Flavor {
   String get url {
     switch (this) {
       case Flavor.DEV:
-        return 'https://api.meet.oha.services/api/v1/token/';
+        return 'https://api.meet.oha.services/api/v1/';
       case Flavor.PRODUCTION:
-        return 'https://api.meet.oha.services/api/v1/token/';
+        return 'https://api.meet.oha.services/api/v1/';
       default:
-        return 'https://api.meet.oha.services/api/v1/token/';
+        return 'https://api.meet.oha.services/api/v1/';
     }
   }
 
