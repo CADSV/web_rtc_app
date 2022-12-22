@@ -14,7 +14,7 @@ part 'request_call_state.dart';
 class RequestCallBloc extends Bloc<RequestCallEvent, RequestCallState> {
 
   //Here the StreamController can be a state or a DomainModel
-  final _loginStreamController = StreamController<bool>();
+  final _requestCallStreamController = StreamController<bool>();
 
   //Instances of use cases:
   final NavigatorServiceContract _navigatorManager = NavigatorServiceContract.get();
@@ -33,7 +33,7 @@ class RequestCallBloc extends Bloc<RequestCallEvent, RequestCallState> {
 
 
   //Getters
-
+  Stream<bool> get streamRequestCall => _requestCallStreamController.stream;
 
   //Setters
 
@@ -69,7 +69,7 @@ class RequestCallBloc extends Bloc<RequestCallEvent, RequestCallState> {
 
 
   //To load the view:
-  void _loadView() => _loginStreamController.sink.add(true);
+  void _loadView() => _requestCallStreamController.sink.add(true);
 
 
   //To show the dialog:
@@ -85,7 +85,7 @@ class RequestCallBloc extends Bloc<RequestCallEvent, RequestCallState> {
 
   //To dispose the stream:
   void _dispose() {
-    _loginStreamController.close();
+    _requestCallStreamController.close();
   }
 
 

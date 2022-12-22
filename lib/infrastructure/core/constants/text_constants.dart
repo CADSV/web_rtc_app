@@ -25,6 +25,7 @@ enum TextConstant {
   logoutTitle,
   areYouSure,
   saveChanges,
+  joinMeeting,
 }
 
 extension TextConstantExtension on TextConstant {
@@ -103,6 +104,9 @@ extension TextConstantExtension on TextConstant {
 
       case TextConstant.saveChanges:
         return 'Guardar cambios';
+      
+      case TextConstant.joinMeeting:
+        return 'Join Meeting';
     }
   }
 }

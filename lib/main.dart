@@ -8,6 +8,7 @@ import 'package:web_rtc_app/infrastructure/core/injection_manager.dart';
 import 'package:web_rtc_app/infrastructure/core/navigator_manager.dart';
 import 'package:web_rtc_app/infrastructure/core/routes_manager.dart';
 import 'package:web_rtc_app/infrastructure/ui/components/loading_component.dart';
+import 'package:web_rtc_app/infrastructure/ui/request_call/request_call_page.dart';
 import 'package:web_rtc_app/infrastructure/ui/styles/theme.dart';
 import 'package:web_rtc_app/infrastructure/utils/device_util.dart';
 
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget{
     return FutureBuilder(
       future: DeviceUtil.checkInternetConnection(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        return Container();
+        return RequestCallPage();
 
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data!) {
