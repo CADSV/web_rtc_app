@@ -43,7 +43,8 @@ extension RepositoryParameterPathConstantExtension on RepositoryParameterPathCon
 ///RepositoryPathConstant: Enum for endpoints path.
 enum RepositoryPathConstant {
   wssToken,
-  getUserToken
+  getUserToken,
+  websocket,
 }
 
 extension RepositoryPathConstantExtension on RepositoryPathConstant {
@@ -55,6 +56,9 @@ extension RepositoryPathConstantExtension on RepositoryPathConstant {
 
       case RepositoryPathConstant.getUserToken:
         return 'token/';
+
+      case RepositoryPathConstant.websocket:
+        return 'wss://api.meet.oha.services/ws/v1';
 
     }
   }

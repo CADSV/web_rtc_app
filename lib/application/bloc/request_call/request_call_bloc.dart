@@ -79,7 +79,15 @@ class RequestCallBloc extends Bloc<RequestCallEvent, RequestCallState> {
 
     if(tokenResponse != null) {
       var userToken = getUserTokenDomainModelFromJson(tokenResponse);
+
+      var websocket = '${event.requestCallDomainModel.meeting}?token=${userToken.token}';
+
+      // _dispose();
+
+      _navigatorManager.navigateToWithReplacement('/call', arguments: websocket);
     }
+
+
 
     _loadView();
 
