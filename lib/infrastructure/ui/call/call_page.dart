@@ -3,10 +3,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:flutter_webrtc_wrapper/flutter_webrtc_wrapper.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 
 //Project imports:
+import 'package:web_rtc_app/domain/models/meeting/meeting_detail_domain_model.dart';
 import 'package:web_rtc_app/application/bloc/call/call_bloc.dart';
 import 'package:web_rtc_app/domain/models/websockets/new_peer_domain_model.dart';
 import 'package:web_rtc_app/infrastructure/ui/components/base_ui_component.dart';
@@ -17,12 +20,18 @@ import 'package:web_rtc_app/infrastructure/ui/styles/colors.dart';
 
 class CallPage extends StatefulWidget{
   String webSocketURL;
+  final String? meetingID;
+  final String? peerID;
+  final MeetingDetailDomainModel? meetingDetail;
 
   static const routeName = '/call';
 
   CallPage({
     Key? key,
     required this.webSocketURL,
+    this.meetingID,
+    this.peerID,
+    this.meetingDetail,
     }) : super(key: key);
 
   @override
@@ -32,6 +41,54 @@ class CallPage extends StatefulWidget{
 class _CallPageState extends State<CallPage>{
 
   var channel;
+  final _localRenderer = RTCVideoRenderer();
+  final Map<String, dynamic> mediaConstraints = {
+    "audio": true,
+    "video": true,
+  };
+  bool isConnectionFailed = false;
+  WebRTCMeetingHelper? meetingHelper;
+
+
+
+  @override
+  void initState(){
+    initRenderers();
+    _getUserMedia();
+    super.initState();
+  }
+
+
+  @override
+  void dispose(){
+    _localRenderer.dispose();
+    super.dispose();
+  }
+
+
+  initRenderers() async{
+    await _localRenderer.initialize();
+  }
+
+
+  _getUserMedia() async{
+    final Map<String,dynamic> mediaConstraints = {
+      'audio' : true,
+      // 'video' : true,
+      'video' : {
+        'mandatory' : {
+          'minWidth' : '640',
+          'minHeight' : '480',
+          'minFrameRate' : '30',
+        },
+        'facingMode' : 'user',
+      },
+    };
+
+    final MediaStream stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
+
+    _localRenderer.srcObject = stream;
+  }
 
 
   @override
@@ -41,6 +98,14 @@ class _CallPageState extends State<CallPage>{
 
     return _page(context);
 
+  }
+
+
+  void startMeeting(){
+    // final String userId;
+    // meetingHelper = WebRTCMeetingHelper(
+    //   url: 
+    // );
   }
 
 
@@ -116,9 +181,27 @@ class _CallPageState extends State<CallPage>{
               return const Text('nothing');
           },
         ),
+        Stack(
+          children: [
+            Container(),
+            Positioned(
+              top: 0,
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.8,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: RTCVideoView(_localRenderer),
+              )
+            )
+          ],
+        ),
       ],
     );
   }
+
+
 
 
   void _sendMessage() {

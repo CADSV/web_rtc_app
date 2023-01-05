@@ -30,11 +30,10 @@ class CallBloc extends Bloc<CallEvent, CallState> {
 
 
   //Variables:
-
+ 
 
   //Getters
-    Stream<bool> get streamCall => _callStreamController.stream;
-
+  Stream<bool> get streamCall => _callStreamController.stream;
 
   //Setters
 

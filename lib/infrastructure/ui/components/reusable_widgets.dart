@@ -20,4 +20,8 @@ Widget renderImageView(BuildContext context, String path) => Container(
 Widget heightSeparator(BuildContext context, double heightPercentage) => SizedBox(
       height: MediaQuery.of(context).size.height * heightPercentage,
     );
+
+  Widget widthSeparator(BuildContext context, double widthPercentage) => SizedBox(
+        width: MediaQuery.of(context).size.width * widthPercentage,
+      );
   
